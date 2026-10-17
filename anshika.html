@@ -1,0 +1,620 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>EXL | Enterprise Data & Agentic Enablement</title>
+
+<style>
+:root {
+  --navy:#082b52;
+  --blue:#1263b5;
+  --orange:#ff590b;
+  --text:#102f56;
+  --muted:#607b9d;
+  --border:#d8e5f4;
+  --bg:#f5f9fe;
+  --green:#07866b;
+}
+* {box-sizing:border-box;margin:0;padding:0}
+body {
+  font-family:"Segoe UI",Arial,sans-serif;
+  color:var(--text);
+  background:var(--bg);
+}
+button,input,select {font:inherit}
+button {cursor:pointer}
+header {
+  background:linear-gradient(110deg,#061e3b,#154776);
+  color:white;padding:13px 4%;
+  display:flex;align-items:center;justify-content:space-between;
+  gap:20px;flex-wrap:wrap;
+}
+.brand {display:flex;align-items:center;gap:18px}
+.logo {font-size:39px;font-weight:850;color:var(--orange)}
+.divider {height:38px;border-left:1px solid #9bacc0}
+.brand-name {font-weight:650;font-size:15px}
+.version {font-size:12px;color:#c2d2e4;margin-top:4px}
+nav {display:flex;align-items:center;gap:20px;flex-wrap:wrap}
+nav button {
+  border:0;background:none;color:white;font-size:13px;
+}
+nav button:hover {color:#ff9c6b}
+.avatar {
+  border:1px solid #8fa8c3;border-radius:50%;
+  width:38px;height:38px;display:grid;place-items:center;
+}
+.page {display:none}
+.page.active {display:block}
+.hero {
+  padding:48px 4%;
+  background:linear-gradient(110deg,#fff,#e5f2ff);
+  position:relative;overflow:hidden;
+}
+.orange-line {height:5px;width:70px;background:var(--orange);margin-bottom:17px}
+h1 {font-size:clamp(30px,3.5vw,47px);line-height:1.2;margin-bottom:15px}
+h1 span {color:var(--orange)}
+.hero p {max-width:720px;color:var(--muted);font-size:18px;line-height:1.7}
+.hero-aside {
+  position:absolute;right:8%;top:35%;border-left:3px solid var(--orange);
+  padding-left:25px;line-height:2.5;letter-spacing:2px;font-size:14px;
+}
+.hero-aside span {color:var(--orange);margin-left:10px}
+main {padding:32px 4% 55px}
+h2 {font-size:25px;margin-bottom:10px}
+.muted {color:var(--muted)}
+.section-line {width:55px;height:4px;background:var(--orange);margin:15px 0 25px}
+.cards {display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:20px}
+.card {
+  border:1px solid var(--border);border-radius:11px;background:white;
+  padding:24px;text-align:left;color:var(--text);
+  box-shadow:0 5px 16px #102b5008;transition:.2s;
+}
+.card:hover {transform:translateY(-4px);box-shadow:0 10px 25px #102b5018}
+.card.active {background:var(--navy);color:white;border-color:var(--orange)}
+.card-heading {display:flex;align-items:center;gap:15px;margin-bottom:16px}
+.icon-box {
+  width:53px;height:53px;border-radius:50%;display:grid;place-items:center;
+  background:#e6f1ff;color:var(--blue);font-size:25px;flex-shrink:0;
+}
+.card h3 {font-size:19px}
+.card p {font-size:14px;line-height:1.7;color:var(--muted);margin-bottom:20px}
+.card.active p {color:#d3e0ef}
+.action {color:var(--blue);font-weight:700;font-size:14px}
+.card.active .action {color:white}
+.btn {
+  background:var(--orange);color:white;border:1px solid var(--orange);
+  border-radius:6px;padding:11px 18px;font-weight:650;
+}
+.btn:hover {filter:brightness(.95)}
+.btn.secondary {background:white;color:var(--blue);border-color:#b8d1ed}
+.btn.small {padding:7px 12px;font-size:13px}
+.btn:disabled {opacity:.45;cursor:not-allowed}
+.toolbar {display:flex;gap:14px;align-items:center;flex-wrap:wrap;margin:18px 0}
+.toolbar select,.toolbar input,.search {
+  padding:13px;border:1px solid var(--border);border-radius:8px;
+  background:white;color:var(--text);
+}
+.search {flex:1;min-width:220px}
+.solutions-layout {display:grid;grid-template-columns:245px 1fr;gap:24px}
+.filters {padding:18px;border:1px solid var(--border);border-radius:9px;background:white}
+.filters h3 {margin:15px 0 12px;font-size:16px}
+.filters label {display:block;margin:12px 0;color:var(--muted);font-size:14px}
+.filters input {margin-right:7px;accent-color:var(--green)}
+.solution-grid {display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:13px}
+.solution {
+  border:1px solid var(--border);border-radius:9px;padding:17px;background:white;
+  display:flex;flex-direction:column;min-height:270px;
+}
+.solution .tag {
+  display:inline-block;background:#e4f6eb;color:#087459;
+  padding:5px 10px;border-radius:15px;font-size:11px;margin:8px 0;
+}
+.solution h3 {font-size:16px;margin:5px 0 10px}
+.solution p {font-size:13px;color:var(--muted);line-height:1.6;margin-bottom:14px}
+.solution .btn {margin-top:auto;align-self:flex-start}
+.topline {
+  padding:18px 4%;display:flex;align-items:center;gap:20px;
+  border-bottom:1px solid var(--border);background:white;flex-wrap:wrap;
+}
+.topline .steps {display:flex;gap:15px;align-items:center;flex-wrap:wrap;font-size:12px}
+.step-dot {
+  width:27px;height:27px;border:1px solid #bdcde0;border-radius:50%;
+  display:inline-grid;place-items:center;margin-right:5px;
+}
+.step-dot.current {background:var(--orange);color:white;border-color:var(--orange)}
+.step-dot.done {background:var(--green);color:white;border-color:var(--green)}
+.estimate-title {padding:25px 4% 5px}
+.estimate-title p {color:var(--muted);margin-top:7px}
+.estimate-layout {display:grid;grid-template-columns:265px 1fr;gap:22px;padding:20px 3% 40px}
+.sidebar,.panel {border:1px solid var(--border);border-radius:9px;background:white}
+.category {
+  width:100%;text-align:left;padding:17px;border:0;border-bottom:1px solid var(--border);
+  background:white;color:var(--text);
+}
+.category.selected {background:#e5f6f1;border-left:4px solid var(--green)}
+.category strong {display:block;margin-bottom:5px}
+.category small {color:var(--muted)}
+.panel {padding:24px;min-width:0}
+.panel h2 {font-size:20px;margin-bottom:20px}
+.question {border-bottom:1px solid #e5edf6;padding:18px 0}
+.question:first-of-type {padding-top:0}
+.question p {font-weight:650;margin-bottom:13px;line-height:1.5}
+.option {
+  display:flex;gap:10px;align-items:flex-start;padding:12px;
+  border:1px solid var(--border);border-radius:7px;margin:7px 0;
+  cursor:pointer;font-size:14px;line-height:1.45;
+}
+.option:has(input:checked) {border-color:var(--orange);background:#fff8f3}
+.option input {margin-top:3px;accent-color:var(--blue)}
+.panel-actions {
+  display:flex;justify-content:space-between;gap:10px;margin-top:24px;flex-wrap:wrap;
+}
+.notice {background:#edf6ff;padding:13px;border-radius:7px;color:#35618c;font-size:13px;margin:14px 0}
+.upload-area {
+  border:2px dashed #b8cfe9;border-radius:9px;padding:40px 15px;
+  text-align:center;background:#f9fbff;
+}
+.upload-area input {margin-top:20px;max-width:100%}
+.review-row {
+  display:flex;justify-content:space-between;gap:15px;padding:14px 0;
+  border-bottom:1px solid var(--border);font-size:14px;
+}
+.review-row strong {color:var(--green);text-align:right}
+.metrics {display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin-bottom:20px}
+.metric {background:#f0f6ff;border:1px solid var(--border);border-radius:9px;padding:17px}
+.metric small {color:var(--muted)}
+.metric strong {display:block;font-size:26px;margin:9px 0}
+.score-row {display:grid;grid-template-columns:190px 1fr 50px;gap:12px;align-items:center;margin:20px 0;font-size:14px}
+.bar {height:9px;border-radius:10px;background:#e3edf9;overflow:hidden}
+.bar span {display:block;height:100%;background:#16aa8c;border-radius:10px}
+.stage-row {display:grid;grid-template-columns:1fr 1fr 60px;gap:12px;padding:14px 0;border-bottom:1px solid var(--border)}
+footer {text-align:center;background:#08213f;color:#c7d7e9;padding:22px;font-size:12px}
+.empty {padding:35px;text-align:center;color:var(--muted);background:white;border:1px solid var(--border);border-radius:9px}
+@media(max-width:1000px) {
+  .cards,.solution-grid {grid-template-columns:repeat(2,minmax(0,1fr))}
+  .hero-aside {display:none}
+  .metrics {grid-template-columns:repeat(2,minmax(0,1fr))}
+}
+@media(max-width:700px) {
+  header {padding:12px 5%}
+  nav {gap:12px}
+  .brand-name {font-size:12px}
+  .logo {font-size:31px}
+  .hero {padding:35px 5%}
+  main {padding:25px 5%}
+  .cards,.solution-grid {grid-template-columns:1fr}
+  .solutions-layout,.estimate-layout {grid-template-columns:1fr}
+  .estimate-layout {padding:15px 4% 30px}
+  .topline {padding:13px 4%}
+  .panel {padding:16px}
+  .score-row {grid-template-columns:110px 1fr 40px;font-size:12px}
+  .metrics {grid-template-columns:repeat(2,minmax(0,1fr))}
+}
+</style>
+</head>
+
+<body>
+<header>
+  <div class="brand">
+    <div class="logo">EXL</div><div class="divider"></div>
+    <div>
+      <div class="brand-name">Enterprise Data &amp; aGentic Enablement</div>
+      <div class="version">v1.0.0</div>
+    </div>
+  </div>
+  <nav>
+    <button onclick="showPage('solutions')">Explore More⌄</button>
+    <button onclick="showPage('estimator')">▷ Play Demo</button>
+    <button onclick="alert('Contact: Please configure your organisation contact details.')">✉ Contact Us</button>
+    <span class="avatar">AJ</span>
+  </nav>
+</header>
+
+<!-- LANDING PAGE -->
+<section id="landing" class="page active">
+  <section class="hero">
+    <div class="orange-line"></div>
+    <h1>Context Readiness for <span>Agentic Delivery</span></h1>
+    <p>Assess enterprise readiness, discover opportunities, estimate delivery effort, and identify the right solutions.</p>
+    <div class="hero-aside">INSIGHTS <span>→</span><br>EFFICIENCY <span>→</span><br>IMPACT <span>→</span></div>
+  </section>
+  <main>
+    <h2>Choose how you would like to start</h2>
+    <p class="muted">Select an option to explore EXL's agentic delivery capabilities.</p>
+    <div class="section-line"></div>
+    <div class="cards">
+      <button class="card active" onclick="showPage('estimator')">
+        <div class="card-heading"><div class="icon-box">▤</div><h3>Scope &amp; Estimate</h3></div>
+        <p>Check how ready your enterprise context is for agentic delivery. Pick outcomes, get a readiness view and effort estimate.</p>
+        <span class="action">Start assessment →</span>
+      </button>
+      <button class="card" onclick="showPage('solutions')">
+        <div class="card-heading"><div class="icon-box">⊞</div><h3>Browse Solutions</h3></div>
+        <p>Explore ready-to-use solutions that close context gaps across Consumption, Migration and Modernisation.</p>
+        <span class="action">Explore solutions →</span>
+      </button>
+      <button class="card" onclick="showPage('rfp')">
+        <div class="card-heading"><div class="icon-box">⇧</div><h3>Draft an RFP Response</h3></div>
+        <p>Upload an RFP document and prepare a draft response for review.</p>
+        <span class="action">Upload RFP →</span>
+      </button>
+    </div>
+  </main>
+</section>
+
+<!-- BROWSE SOLUTIONS PAGE -->
+<section id="solutions" class="page">
+  <section class="hero">
+    <div class="orange-line"></div>
+    <h1>Discover Ready-to-Use <span>Solutions</span></h1>
+    <p>Explore EXL's industry and journey specific solutions to close context gaps, accelerate outcomes and drive measurable impact.</p>
+    <div class="hero-aside">INSIGHTS <span>→</span><br>EFFICIENCY <span>→</span><br>IMPACT <span>→</span></div>
+  </section>
+  <main>
+    <div class="toolbar">
+      <select id="industrySelect" onchange="renderSolutions()">
+        <option value="All">All industries</option>
+        <option>Banking, Finance, Insurance</option><option>Healthcare</option>
+        <option>Energy & Utilities</option><option>Capital Markets</option>
+      </select>
+      <select id="journeySelect" onchange="renderSolutions()">
+        <option value="All">All journeys</option><option>Modernisation</option>
+        <option>Migration</option><option>Consumption</option><option>DataOps</option>
+      </select>
+      <input id="solutionSearch" class="search" placeholder="Search solutions by keyword..." oninput="renderSolutions()">
+      <button class="btn secondary" onclick="showPage('landing')">← Home</button>
+    </div>
+    <div class="solutions-layout">
+      <aside class="filters">
+        <h3>Filters <button class="btn small secondary" onclick="clearFilters()">Clear all</button></h3>
+        <h3>Industry</h3>
+        <label><input type="checkbox" class="industryCheck" value="Banking, Finance, Insurance" onchange="syncFilters()"> Banking, Finance, Insurance</label>
+        <label><input type="checkbox" class="industryCheck" value="Capital Markets" onchange="syncFilters()"> Capital Markets</label>
+        <label><input type="checkbox" class="industryCheck" value="Energy & Utilities" onchange="syncFilters()"> Energy & Utilities</label>
+        <label><input type="checkbox" class="industryCheck" value="Healthcare" onchange="syncFilters()"> Healthcare</label>
+        <hr style="border:0;border-top:1px solid var(--border);margin:18px 0">
+        <h3>Journey</h3>
+        <label><input type="checkbox" class="journeyCheck" value="Consumption" onchange="syncFilters()"> Consumption</label>
+        <label><input type="checkbox" class="journeyCheck" value="Migration" onchange="syncFilters()"> Migration</label>
+        <label><input type="checkbox" class="journeyCheck" value="Modernisation" onchange="syncFilters()"> Modernisation</label>
+        <label><input type="checkbox" class="journeyCheck" value="DataOps" onchange="syncFilters()"> DataOps</label>
+      </aside>
+      <div>
+        <p id="solutionCount" style="margin:5px 0 15px;font-weight:650">Solutions found</p>
+        <div id="solutionGrid" class="solution-grid"></div>
+      </div>
+    </div>
+  </main>
+</section>
+
+<!-- ESTIMATOR: ALL 7 STEPS -->
+<section id="estimator" class="page">
+  <div class="topline">
+    <button class="btn secondary small" onclick="showPage('landing')">← Home</button>
+    <div class="steps" id="stepProgress"></div>
+  </div>
+  <div class="estimate-title">
+    <h1 id="stepTitle">Journey &amp; Outcomes</h1>
+    <p id="stepDescription">Choose the primary engagement type and delivery outcomes.</p>
+  </div>
+  <div class="estimate-layout">
+    <aside class="sidebar" id="stepSidebar"></aside>
+    <section class="panel">
+      <div id="stepContent"></div>
+      <div class="panel-actions">
+        <button class="btn secondary" id="backBtn" onclick="previousStep()">← Back</button>
+        <button class="btn" id="nextBtn" onclick="nextStep()">Next →</button>
+      </div>
+    </section>
+  </div>
+</section>
+
+<!-- RFP PLACEHOLDER -->
+<section id="rfp" class="page">
+  <main>
+    <button class="btn secondary" onclick="showPage('landing')">← Back to Home</button>
+    <div style="max-width:750px;margin:35px auto">
+      <h1>Draft an RFP <span>Response</span></h1>
+      <p class="muted" style="margin:12px 0 25px">Choose an RFP document to prepare it for review. This prototype does not send the document to a server.</p>
+      <div class="upload-area">
+        <h2>Upload RFP document</h2>
+        <p class="muted">Select a PDF, DOCX or TXT file from your computer.</p>
+        <input type="file" accept=".pdf,.docx,.txt">
+      </div>
+      <div class="notice">Document analysis and automatic RFP response generation need a backend service.</div>
+    </div>
+  </main>
+</section>
+
+<footer>© 2026 EXLService Holdings, Inc. All rights reserved.</footer>
+
+<script>
+/* PAGE NAVIGATION */
+function showPage(id) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  window.scrollTo(0,0);
+  if(id === 'estimator') renderStep();
+  if(id === 'solutions') renderSolutions();
+}
+
+/* SOLUTIONS */
+const solutions = [
+ {name:'Core Banking Modernisation',industry:'Banking, Finance, Insurance',journey:'Modernisation',icon:'🏛',desc:'Reimagine core banking platforms with cloud-native architecture, scalability and improved customer experiences.'},
+ {name:'Data Modernisation & Analytics',industry:'Banking, Finance, Insurance',journey:'DataOps',icon:'📊',desc:'Build a unified data layer and enable advanced analytics for real-time insights and better decisions.'},
+ {name:'Cloud Migration for Financial Services',industry:'Banking, Finance, Insurance',journey:'Migration',icon:'☁',desc:'Accelerate cloud adoption with a secure, scalable and cost-optimised migration strategy.'},
+ {name:'Fraud Detection & Risk Analytics',industry:'Banking, Finance, Insurance',journey:'Consumption',icon:'🛡',desc:'Leverage AI and real-time data to detect fraud, reduce risk and improve compliance.'},
+ {name:'Digital Customer Onboarding',industry:'Banking, Finance, Insurance',journey:'Migration',icon:'👤',desc:'Enable seamless digital onboarding, document verification and automated checks.'},
+ {name:'ESG & Sustainability Reporting',industry:'Banking, Finance, Insurance',journey:'Modernisation',icon:'🌿',desc:'Automate ESG data collection, reporting and compliance using integrated analytics.'},
+ {name:'Healthcare Data Platform',industry:'Healthcare',journey:'Modernisation',icon:'✚',desc:'Create trusted healthcare data products and enable secure data-driven insights.'},
+ {name:'Energy Forecasting Analytics',industry:'Energy & Utilities',journey:'Consumption',icon:'⚡',desc:'Improve forecasting and operational decisions using data and advanced analytics.'},
+ {name:'Capital Markets Data Hub',industry:'Capital Markets',journey:'DataOps',icon:'📈',desc:'Unify market data, improve data quality and support consistent reporting.'}
+];
+
+function renderSolutions() {
+  const industry=document.getElementById('industrySelect').value;
+  const journey=document.getElementById('journeySelect').value;
+  const search=document.getElementById('solutionSearch').value.toLowerCase();
+  const checkedIndustries=[...document.querySelectorAll('.industryCheck:checked')].map(x=>x.value);
+  const checkedJourneys=[...document.querySelectorAll('.journeyCheck:checked')].map(x=>x.value);
+  const filtered=solutions.filter(s=>
+    (industry==='All'||s.industry===industry) &&
+    (journey==='All'||s.journey===journey) &&
+    (!checkedIndustries.length||checkedIndustries.includes(s.industry)) &&
+    (!checkedJourneys.length||checkedJourneys.includes(s.journey)) &&
+    (s.name+' '+s.desc+' '+s.industry+' '+s.journey).toLowerCase().includes(search)
+  );
+  document.getElementById('solutionCount').textContent=filtered.length+' solutions found';
+  document.getElementById('solutionGrid').innerHTML=filtered.length?filtered.map((s,i)=>`
+    <article class="solution">
+      <div style="font-size:27px">${s.icon}</div>
+      <span class="tag">${s.journey}</span>
+      <h3>${s.name}</h3>
+      <p>${s.industry}</p>
+      <p>${s.desc}</p>
+      <button class="btn small" onclick="solutionDetails(${solutions.indexOf(s)})">Explore solution →</button>
+    </article>`).join(''):'<div class="empty">No solutions match these filters.</div>';
+}
+function solutionDetails(i) {
+  const s=solutions[i];
+  alert(s.name+'\\n\\nJourney: '+s.journey+'\\nIndustry: '+s.industry+'\\n\\n'+s.desc);
+}
+function clearFilters() {
+  document.getElementById('industrySelect').value='All';
+  document.getElementById('journeySelect').value='All';
+  document.getElementById('solutionSearch').value='';
+  document.querySelectorAll('.industryCheck,.journeyCheck').forEach(x=>x.checked=false);
+  renderSolutions();
+}
+function syncFilters() {
+  const i=[...document.querySelectorAll('.industryCheck:checked')].map(x=>x.value);
+  const j=[...document.querySelectorAll('.journeyCheck:checked')].map(x=>x.value);
+  document.getElementById('industrySelect').value=i.length===1?i[0]:'All';
+  document.getElementById('journeySelect').value=j.length===1?j[0]:'All';
+  renderSolutions();
+}
+
+/* ESTIMATOR DATA */
+const stepNames=[
+ 'Journey & Outcomes','Assessment','Upload (Optional)',
+ 'Review','Score','Effort','Summary'
+];
+const descriptions=[
+ 'Choose the primary engagement type and delivery outcomes.',
+ 'Answer the questions to assess scope, data readiness and delivery complexity.',
+ 'Upload requirements or architecture notes if needed. This step is optional.',
+ 'Review your responses before calculating the readiness score.',
+ 'Review readiness signals and areas that may need improvement.',
+ 'Review the estimated effort across delivery stages.',
+ 'View your consolidated assessment, readiness and effort estimates.'
+];
+let currentStep=0;
+let journey='Modernisation';
+let selectedOutcomes=[
+ 'AI & Cloud Readiness Assessment',
+ 'Data Discovery, STTM & Lineage Baseline',
+ 'Cloud Data Platform & Data Products',
+ 'Data Governance, Quality, MDM & Contracts',
+ 'Enterprise Knowledge & Context Layer (RAG / Vector DB)'
+];
+let answers={};
+let uploadedFiles=[];
+const outcomeOptions=[
+ ['AI & Cloud Readiness Assessment','Assesses business, data, application, cloud and AI readiness.'],
+ ['Data Discovery, STTM & Lineage Baseline','Establishes a baseline of systems, data sources, mappings and dependencies.'],
+ ['Cloud Data Platform & Data Products','Builds a scalable cloud data platform and curated data products.'],
+ ['Application Rationalisation & Legacy Modernisation','Analyses legacy workloads and identifies the right modernisation path.'],
+ ['Data Governance, Quality, MDM & Contracts','Establishes data quality, ownership, privacy and governance controls.'],
+ ['Semantic Layer & KPI Governance','Creates governed business metrics and consistent KPI definitions.'],
+ ['Enterprise Knowledge & Context Layer (RAG / Vector DB)','Creates a unified knowledge layer for AI search, retrieval and decision support.']
+];
+const questions=[
+ {cat:'Business & Functional Context',items:[
+  ['Roughly how many distinct business entities must the target model cover?',['5 or fewer','6–15','16–30','30+ or unknown','Other']],
+  ['What is the scope and structural complexity of the data assets?',['Single application or workload with limited dependencies','Multiple related applications within one domain','Cross-platform workload with databases, files, ETL and reports','Cross-domain estate with complex dependencies','Enterprise-wide or unknown scope']],
+  ['What is the scope of the application, database and platform landscape?',['One application or database','Multiple applications within one function','Multiple platforms across business functions','Enterprise-wide landscape','Unknown']],
+  ['How many business processes are included?',['1 process','2–3 related processes','4–10 processes','More than 10 processes','Unknown']],
+  ['How do people currently know these processes?',['Documented SOPs and process maps','Partially documented','Informal notes and individual knowledge','Mostly undocumented','Unknown']],
+  ['What are the key business outcomes?',['Improve efficiency and reduce operational risk','Reduce costs','Improve customer experience','Enable new AI capabilities','Multiple or not yet defined']]
+ ]},
+ {cat:'Data Definitions & Models',items:[
+  ['How complete are the business definitions and data models?',['Complete and governed','Mostly documented','Partially documented','Fragmented or outdated','Unknown']],
+  ['How available are data lineage and source-to-target mappings?',['Complete and validated','Mostly available','Partially available','Limited or missing','Unknown']],
+  ['How mature are data quality rules and ownership?',['Established and monitored','Defined for key datasets','Partially defined','Ad hoc','Unknown']]
+ ]},
+ {cat:'Runtime, NFR & Operations',items:[
+  ['How clear are security and compliance requirements?',['Documented and approved','Mostly defined','Partially defined','Not yet defined','Unknown']],
+  ['How mature are runtime and infrastructure environments?',['Production-ready and monitored','Mostly provisioned','Some setup remains','Major infrastructure work needed','Unknown']],
+  ['How clear are non-functional requirements (NFRs)?',['Fully documented','Mostly documented','Partially documented','Not defined','Unknown']],
+  ['How ready are operations, support and monitoring?',['Established support and monitoring','Mostly in place','Partially in place','Not yet established','Unknown']]
+ ]}
+];
+function setAnswer(key,val) {answers[key]=val;}
+function renderStep() {
+  document.getElementById('stepTitle').textContent=stepNames[currentStep];
+  document.getElementById('stepDescription').textContent=descriptions[currentStep];
+  document.getElementById('stepProgress').innerHTML=stepNames.map((s,i)=>`
+    <span style="color:${i===currentStep?'var(--orange)':i<currentStep?'var(--green)':'#7d91aa'}">
+      <span class="step-dot ${i===currentStep?'current':i<currentStep?'done':''}">${i<currentStep?'✓':i+1}</span>${s}
+    </span>`).join('');
+  document.getElementById('stepSidebar').innerHTML=stepNames.map((s,i)=>`
+    <button class="category ${i===currentStep?'selected':''}" onclick="goStep(${i})">
+      <strong>${i+1}. ${s}</strong><small>${i===1?Object.keys(answers).length+' answers saved':i<currentStep?'Completed':'Step '+(i+1)}</small>
+    </button>`).join('');
+  document.getElementById('backBtn').style.visibility=currentStep===0?'hidden':'visible';
+  document.getElementById('nextBtn').textContent=currentStep===6?'Finish ✓':'Next →';
+  const content=document.getElementById('stepContent');
+  if(currentStep===0) renderJourney(content);
+  if(currentStep===1) renderAssessment(content);
+  if(currentStep===2) renderUpload(content);
+  if(currentStep===3) renderReview(content);
+  if(currentStep===4) renderScore(content);
+  if(currentStep===5) renderEffort(content);
+  if(currentStep===6) renderSummary(content);
+}
+function goStep(i){currentStep=i;renderStep()}
+function renderJourney(el) {
+  el.innerHTML=`
+    <h2>1. Select the delivery journey</h2>
+    <div class="cards" style="grid-template-columns:repeat(2,minmax(0,1fr))">
+      ${[['Migration','☁','Move to modern platforms and enable secure, scalable cloud adoption.'],['Modernisation','⚙','Reimagine applications and infrastructure for agility and innovation.'],['Consumption','▤','Leverage existing data assets to drive faster business outcomes.'],['DataOps','♧','Enable trusted data pipelines, governance and automation.']].map(x=>`
+      <button class="card ${journey===x[0]?'active':''}" onclick="journey='${x[0]}';renderStep()">
+        <div class="card-heading"><div class="icon-box">${x[1]}</div><h3>${x[0]}</h3></div>
+        <p>${x[2]}</p><span class="action">${journey===x[0]?'✓ Selected':'Select journey →'}</span>
+      </button>`).join('')}
+    </div>
+    <h2 style="margin-top:30px">2. Select the delivery outcomes</h2>
+    <div class="notice">Some outcomes depend on others. This demo shows the selection flow; it does not validate real delivery dependencies.</div>
+    <p id="outcomeCount" class="muted">${selectedOutcomes.length} selected</p>
+    ${outcomeOptions.map((o,i)=>`
+      <label class="option"><input type="checkbox" ${selectedOutcomes.includes(o[0])?'checked':''}
+      onchange="toggleOutcome('${o[0].replace(/'/g,"\\'")}',this.checked)">
+      <span><strong>${o[0]}</strong><br>${o[1]}</span></label>`).join('')}`;
+}
+function toggleOutcome(name,checked) {
+  selectedOutcomes=checked?[...selectedOutcomes,name]:selectedOutcomes.filter(x=>x!==name);
+  renderStep();
+}
+function renderAssessment(el) {
+  el.innerHTML='<h2>Assessment Categories</h2><div class="notice">Choose the answer that best describes your project. Answers are stored in this browser session.</div>'+
+  questions.map((cat,ci)=>`<h2 style="margin-top:25px">${ci+1}. ${cat.cat}</h2>`+
+  cat.items.map((q,qi)=>{
+    const key=ci+'-'+qi;
+    return `<div class="question"><p>${qi+1}. ${q[0]}</p>`+
+    q[1].map((opt,oi)=>`<label class="option"><input type="radio" name="q${key}" ${answers[key]===opt?'checked':''} onchange="setAnswer('${key}',${JSON.stringify(opt)})"><span>${String.fromCharCode(65+oi)}. ${opt}</span></label>`).join('')+'</div>';
+  }).join(''));
+}
+function renderUpload(el) {
+  el.innerHTML=`<h2>Upload documents (optional)</h2>
+    <p class="muted">Add requirements, RFPs or architecture notes. You can also skip this step.</p>
+    <div class="upload-area"><h2>⇧</h2><h3>Choose files from your computer</h3>
+      <p class="muted">PDF, DOCX, TXT or MD files</p>
+      <input type="file" multiple accept=".pdf,.docx,.txt,.md" onchange="addFiles(this.files)">
+    </div>
+    <div id="fileList" class="notice">${uploadedFiles.length?uploadedFiles.map(f=>f.name).join('<br>'):'No documents selected.'}</div>
+    <button class="btn secondary small" onclick="uploadedFiles=[];renderStep()">Clear files</button>`;
+}
+function addFiles(files) {
+  uploadedFiles=[...files].map(f=>({name:f.name,size:f.size}));
+  renderStep();
+}
+function renderReview(el) {
+  let rows=[];
+  rows.push(['Delivery journey',journey]);
+  rows.push(['Selected outcomes',selectedOutcomes.join(', ')||'None selected']);
+  questions.forEach((cat,ci)=>cat.items.forEach((q,qi)=>{
+    const key=ci+'-'+qi;rows.push([q[0],answers[key]||'Not answered']);
+  }));
+  el.innerHTML='<h2>Review Assessment</h2><p class="muted">Review your responses before moving to the score.</p>'+
+    '<div class="notice">'+Object.keys(answers).length+' of 13 questions answered.</div>'+
+    rows.map(r=>`<div class="review-row"><span>${r[0]}</span><strong>${r[1]}</strong></div>`).join('');
+}
+function calculateScore() {
+  const answered=Object.keys(answers).length;
+  const answerValues=Object.values(answers);
+  const unknowns=answerValues.filter(v=>/unknown|not yet|missing|undocumented|ad hoc/i.test(v)).length;
+  return Math.max(35,Math.min(98,Math.round(50+answered*3-unknowns*2+Math.min(selectedOutcomes.length,5)*2)));
+}
+function renderScore(el) {
+  const score=calculateScore();
+  const confidence=Math.round(50+Object.keys(answers).length/13*45);
+  const signals=[
+    ['Scope Clarity',Math.min(5,2.5+selectedOutcomes.length*.25)],
+    ['Risk Maturity',Math.max(1,4-Object.values(answers).filter(v=>/unknown|not yet|missing/i.test(v)).length*.3)],
+    ['Governance Maturity',3.5],
+    ['Client Dependency',3.6],
+    ['Infrastructure Readiness',3.5],
+    ['Content Readiness',3.8]
+  ];
+  el.innerHTML=`<h2>EXL Engagement Estimate — Readiness Score</h2>
+    <div class="notice">Illustrative prototype score based on your answers, not an official EXL assessment.</div>
+    <div class="metrics">
+      <div class="metric"><small>Overall score</small><strong>${score}/100</strong></div>
+      <div class="metric"><small>Confidence</small><strong>${confidence}%</strong></div>
+      <div class="metric"><small>T-shirt size</small><strong>${score>=80?'S':score>=60?'M':'L'}</strong></div>
+      <div class="metric"><small>Questions answered</small><strong>${Object.keys(answers).length}/13</strong></div>
+    </div><h2>Readiness Signals</h2>`+
+    signals.map(s=>`<div class="score-row"><span>${s[0]}</span><div class="bar"><span style="width:${s[1]/5*100}%"></span></div><strong>${s[1].toFixed(1)}/5</strong></div>`).join('')+
+    `<div class="notice">Areas to review: risk maturity, infrastructure readiness and missing data documentation.</div>`;
+}
+function effortDays() {
+  const answered=Object.keys(answers).length;
+  return Math.max(20,Math.round(45+selectedOutcomes.length*7+(13-answered)*2));
+}
+function renderEffort(el) {
+  const total=effortDays(),discover=Math.round(total*.39),construct=total-discover;
+  el.innerHTML=`<h2>Effort Estimation</h2>
+    <p class="muted">Estimated delivery effort by lifecycle stage.</p>
+    <div class="metrics" style="margin-top:20px">
+      <div class="metric"><small>Total estimated effort</small><strong>${total}</strong><small>person-days</small></div>
+      <div class="metric"><small>Active stages</small><strong>2 of 6</strong></div>
+      <div class="metric"><small>T-shirt size</small><strong>${calculateScore()>=80?'S':calculateScore()>=60?'M':'L'}</strong></div>
+      <div class="metric"><small>Selected outcomes</small><strong>${selectedOutcomes.length}</strong></div>
+    </div>
+    <h2>Effort by Stage</h2>
+    ${[['Discover',discover,'39%'],['Construct',construct,'61%'],['Contractualise','—','Not estimated'],['Engineer','—','Not estimated'],['Validate','—','Not estimated'],['Operate','—','Not estimated']].map(s=>`
+      <div class="stage-row"><strong>${s[0]}</strong><span>${s[1]} ${s[1]!=='—'?'person-days':''}</span><span class="muted">${s[2]}</span></div>`).join('')}
+    <div class="notice">These effort values are illustrative and are calculated locally for this prototype.</div>`;
+}
+function renderSummary(el) {
+  const score=calculateScore(),total=effortDays();
+  el.innerHTML=`<h2>Assessment Summary</h2>
+    <p class="muted">Consolidated view of your project assessment, readiness and estimated effort.</p>
+    <div class="metrics" style="margin-top:20px">
+      <div class="metric"><small>Readiness Score</small><strong>${score}/100</strong></div>
+      <div class="metric"><small>Estimated Effort</small><strong>${total}</strong><small>person-days</small></div>
+      <div class="metric"><small>T-shirt Size</small><strong>${score>=80?'S':score>=60?'M':'L'}</strong></div>
+      <div class="metric"><small>Confidence</small><strong>${Math.round(50+Object.keys(answers).length/13*45)}%</strong></div>
+    </div>
+    <h2>Project Details</h2>
+    <div class="review-row"><span>Journey</span><strong>${journey}</strong></div>
+    <div class="review-row"><span>Selected outcomes</span><strong>${selectedOutcomes.length}</strong></div>
+    <div class="review-row"><span>Questions answered</span><strong>${Object.keys(answers).length}/13</strong></div>
+    <h2 style="margin-top:25px">Key Insights</h2>
+    <div class="notice">Your assessment has been calculated. Focus on improving risk maturity, infrastructure readiness and documentation where applicable.</div>
+    <button class="btn" onclick="window.print()">Print / Save as PDF</button>
+    <button class="btn secondary" onclick="resetAssessment()">Start again</button>`;
+}
+function nextStep() {
+  if(currentStep===0 && selectedOutcomes.length===0) {
+    alert('Please select at least one delivery outcome.');return;
+  }
+  if(currentStep<6) {currentStep++;renderStep();}
+  else {alert('You have reached the end of this prototype.');showPage('landing');}
+}
+function previousStep() {
+  if(currentStep>0){currentStep--;renderStep();}
+  else showPage('landing');
+}
+function resetAssessment() {
+  currentStep=0;answers={};uploadedFiles=[];journey='Modernisation';
+  selectedOutcomes=[outcomeOptions[0][0],outcomeOptions[1][0],outcomeOptions[2][0],outcomeOptions[4][0],outcomeOptions[6][0]];
+  renderStep();
+}
+renderSolutions();
+renderStep();
+</script>
+</body>
+</html>
